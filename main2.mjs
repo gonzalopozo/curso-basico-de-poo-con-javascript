@@ -69,6 +69,45 @@ const rodrigo1 = {
 
 */
 
+function videoPlay(id) {
+    const urlSecreta = `https://platziultrasecretomasquelanasa.com/${id}`; 
+
+    console.log(`Se está reproduciento desde la url ${urlSecreta}`);
+}
+
+function videoStop(id) {
+    const urlSecreta = `https://platziultrasecretomasquelanasa.com/${id}`; 
+
+    console.log(`Pausamos la url ${urlSecreta}`);
+}
+
+export class PlatziClass {
+    constructor({
+        name,
+        videoID
+    }) {
+        this.name = name;
+        this.videoID = videoID;
+    }
+
+    reproducir() {
+        videoPlay(this.videoID);
+    }
+
+    pausar() {
+        videoStop(this.videoID);
+    }
+
+}
+
+
+
+
+
+
+
+
+
 
 
 class Course {
@@ -76,8 +115,20 @@ class Course {
         name,
         classes = []
     }) {
-        this.name = name;
+        this._name = name;
         this.classes = classes;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        if (name === "Curso Malito de Programación Básica") {
+            console.error("Web... no");
+        } else {
+            this._name = name;
+        }
     }
 }
 
@@ -162,7 +213,7 @@ class Student {
         approvedCourses = [],
         learningPaths = []
     }) {
-        this.name = name;
+        this._name = name;
         this.email = email;
         this.username = username;
         this.socialMedia = {
@@ -172,6 +223,14 @@ class Student {
         };
         this.approvedCourses = approvedCourses;
         this.learningPaths = learningPaths;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        this._name = name;
     }
 }
 
