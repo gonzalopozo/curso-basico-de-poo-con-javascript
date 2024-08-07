@@ -69,6 +69,25 @@ const rodrigo1 = {
 
 */
 
+class Comment {
+    constructor({
+        content,
+        studentName,
+        studentRole = "estudiante"
+    }) {
+        this.content = content;
+        this.studentName = studentName;
+        this.studentRole = studentRole;
+        this.likes = 0;
+    }
+
+    publicar() {
+        console.log(`${this.studentName} (${this.studentRole})`);
+        console.log(`${this.likes} likes`);
+        console.log(this.content);
+    }
+}
+
 function videoPlay(id) {
     const urlSecreta = `https://platziultrasecretomasquelanasa.com/${id}`; 
 
@@ -81,7 +100,7 @@ function videoStop(id) {
     console.log(`Pausamos la url ${urlSecreta}`);
 }
 
-export class PlatziClass {
+class PlatziClass {
     constructor({
         name,
         videoID
@@ -101,22 +120,17 @@ export class PlatziClass {
 }
 
 
-
-
-
-
-
-
-
-
-
 class Course {
     constructor({
         name,
-        classes = []
+        classes = [],
+        isFree = false,
+        lang = "spanish"
     }) {
         this._name = name;
         this.classes = classes;
+        this.isFree = isFree;
+        this.lang = lang;
     }
 
     get name() {
@@ -133,7 +147,8 @@ class Course {
 }
 
 const cursoProgBasica = new Course({
-    name: "Curso Gratis de Programación Básica"
+    name: "Curso Gratis de Programación Básica",
+    isFree: true
 });
 
 const cursoDefinitivoHTML = new Course({
@@ -141,7 +156,8 @@ const cursoDefinitivoHTML = new Course({
 });
 
 const cursoPracticoHTML = new Course({
-    name: "Curso Practico de HTML y CSS"
+    name: "Curso Practico de HTML y CSS",
+    lang: "english"
 });
 
 class LearningPath {
@@ -232,7 +248,75 @@ class Student {
     set name(name) {
         this._name = name;
     }
+
+    publicarComentario(commentContent) {
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,
+        });
+        
+        comment.publicar();
+    }
 }
+
+class FreeStudent extends Student {
+    constructor(props) {
+        super(props)
+    }
+
+    approvedCourse(newCourse) {
+        if (newCourse.isFree) {
+            this.approvedCourses.push(newCourse);
+        } else {
+            console.warn(`Lo sentimos ${this.name}, solo puedes ver los cursos gratuitos.`);
+        }
+    }
+}
+
+class BasicStudent extends Student {
+    constructor(props) {
+        super(props)
+    }
+
+    approvedCourse(newCourse) {
+        if (newCourse.lang !== "english") {
+            this.approvedCourses.push(newCourse);
+        } else {
+            console.warn(`Lo sentimos ${this.name}, solo puedes ver los cursos en español.`);
+        }
+    }
+}
+
+class ExpertStudent extends Student {
+    constructor(props) {
+        super(props)
+    }
+    
+    approvedCourse(newCourse) {
+        this.approvedCourses.push(newCourse);
+    }
+}
+
+class TeacherStudent extends Student {
+    constructor(props) {
+        super(props)
+    }
+    
+    approvedCourse(newCourse) {
+        this.approvedCourses.push(newCourse);
+    }
+
+    publicarComentario(commentContent) {
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,
+            studentRole: "profesor"
+        });
+        
+        comment.publicar();
+    }
+}
+
 
 const gonzalo2 = new Student({
     name: "Gonzalo",
@@ -254,4 +338,33 @@ const rodrigo2 = new Student({
         escuelaWeb,
         escuelaVideogames
     ]
+});
+
+const gonzalo3 = new FreeStudent({
+    name: "Gonzalo",
+    username: "ganster",
+    email: "gonzalopozo2005@gmail.com",
+    twitter: "gonza12345",
+    learningPaths: [
+        escuelaWeb,
+        escuelaDataScience
+    ]
+});
+
+const rodrigo3 = new BasicStudent({
+    name: "Rodrigo",
+    username: "degryh",
+    email: "rodrigopozo2003@gmail.com",
+    instagram: "rodri12345", 
+    learningPaths: [
+        escuelaWeb,
+        escuelaVideogames
+    ]
+});
+
+const freddy = new TeacherStudent({
+    name: "Freddy Vega",
+    username: "freddier",
+    email: "f@gep.com",
+    instagram: "freddiervega", 
 });
